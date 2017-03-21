@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.onepoint.poc.webapi.graphql</groupId>
+	<artifactId>graphql</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<name>graphql</name>
+	<description>Web API GraphQL</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<java.version>1.8</java.version>
+
+		<failOnMissingWebXml>false</failOnMissingWebXml>
+
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
+
+		<wildfly.swarm.version>2017.1.1</wildfly.swarm.version>
+		<jackson.version>2.5.4</jackson.version>
+		<version.h2>1.4.187</version.h2>
+
+		<!-- <swarm.debug.port>8000</swarm.debug.port> -->
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.wildfly.swarm</groupId>
+				<artifactId>bom</artifactId>
+				<version>${wildfly.swarm.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- Java EE 7 dependency -->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- WildFly Swarm Fractions -->
+		<dependency>
+			<groupId>org.wildfly.swarm</groupId>
+			<artifactId>jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.wildfly.swarm</groupId>
+			<artifactId>jaxrs</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.wildfly.swarm</groupId>
+			<artifactId>cdi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.wildfly.swarm</groupId>
+			<artifactId>ejb</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.graphql-java</groupId>
+			<artifactId>graphql-java</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.graphql-java</groupId>
+			<artifactId>graphql-java-annotations</artifactId>
+			<version>0.13.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.0.10.Final</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${version.h2}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.12</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.1.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.openjdk-orb</groupId>
+			<artifactId>openjdk-orb</artifactId>
+			<version>8.0.6.Final</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Tests -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.5.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>2.2.16</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.wildfly.swarm</groupId>
+				<artifactId>wildfly-swarm-plugin</artifactId>
+				<version>${wildfly.swarm.version}</version>
+				<configuration>
+					<jvmArguments>
+						<jvmArgument>-Xmx128m</jvmArgument>
+					</jvmArguments>
+				</configuration>
+				<executions>
+					<execution>
+						<id>package</id>
+						<goals>
+							<goal>package</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>start</id>
+					</execution>
+					<execution>
+						<id>stop</id>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
